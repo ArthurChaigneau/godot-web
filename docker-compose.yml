@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  godot:
+    build: .
+
+    container_name: ${CONTAINER_NAME:-godot}
+
+    restart: unless-stopped
+
+    environment:
+      VNC_PASSWORD: ${VNC_PASSWORD}
+
+    volumes:
+      - ${PROJECTS_PATH:-godot_projects}:/workspace
+
+    networks:
+      - caddy
+
+    labels:
+      caddy: ${DOMAIN}
+      caddy.reverse_proxy: "{{upstreams 6080}}"
+
+      # Protection HTTP
+      caddy.basicauth: /*
+      caddy.basicauth.user: ${CADDY_PASSWORD_HASH}
+
+volumes:
+  godot_projects:
+
+networks:
+  caddy:
+    external: true
