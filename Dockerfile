@@ -4,6 +4,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV GODOT_VERSION=4.4
 
 RUN apt-get update && apt-get install -y \
+    xterm \
+    x11-apps \
     wget \
     unzip \
     xvfb \
@@ -11,8 +13,7 @@ RUN apt-get update && apt-get install -y \
     fluxbox \
     novnc \
     websockify \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates
 
 RUN wget -O /tmp/godot.zip \
     https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip \
